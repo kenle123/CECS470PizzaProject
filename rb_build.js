@@ -1,12 +1,32 @@
 
 
 
-class cart {
+class Cart {
+   totalCostOfItems = 0;
+   itemsInCart = [];
+
    constructor(totalCost, items) {
       this.totalCost = totalCost;
-      this.items = items;
+      this.itemsInCart = items;
    }
+
+//    greet() {
+//       return `${this.totalCost} says hello.`;
+//   }
+
+//   freelo() {
+//      return this.itemsInCart;
+//   }
 }
+
+let cart = new Cart(32, [12,34,2]);
+// let ez = gg.greet();
+// console.log(ez);
+// let free = gg.freelo()
+// console.log(typeof(free))
+// console.log(free[0])
+
+
 
 
 
