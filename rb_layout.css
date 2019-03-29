@@ -1,17 +1,5 @@
 @charset "utf-8";
 
-/*
-   
-
-   Red Ball Pizza Layout Style Sheet
-  
-   Filename: rb_layout.css
-
-*/
-
-
-/* HTML and Body styles */
-
 html {
    background: rgb(246, 174, 176) url(rb_background.png);
    font-family: Verdana, Geneva, sans-serif;

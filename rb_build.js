@@ -1,11 +1,12 @@
-"use strict";
 
-/*
-     
-   Filename: rb_build.js
 
-*/
 
+class cart {
+   constructor(totalCost, items) {
+      this.totalCost = totalCost;
+      this.items = items;
+   }
+}
 
 
 
