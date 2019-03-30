@@ -62,22 +62,62 @@ var pizzaPrice = {
 class Pizza extends foodItem {
    size = "";
    crust = "";
-   doubleSausage = true;
-   doubleCheese = true;
+   doubleSauce;
+   doubleCheese;
    toppings;
 
-   constructor(price, qty, size, crust, doubleSausage, doubleChese, toppings) {
+   priceOfPizza = 0;
+
+   constructor(price, qty, size, crust, doubleSauce, doubleChese, toppings) {
       super(price, qty);
 
       this.size = size;
       this.crust = crust;
-      this.doubleSausage = doubleSausage;
+      this.doubleSauce = doubleSauce;
       this.doubleCheese = doubleChese;
       this.toppings = toppings;
    }
 
-   addToppingToPizza() {
-      
+   addToppingToPizza(toppingToAdd) {
+      toppings.push(toppingToAdd);
+   }
+
+   calculatePizzaPrice() {
+      // Size
+      if(this.size === 12) {
+         priceOfPizza += pizzaPrice.size12;
+      }
+      else if(this.size === 14) {
+         priceOfPizza += pizzaPrice.size14;
+      }
+      else {
+         priceOfPizza += pizzaPrice.size16;
+      }
+
+      // Crust
+      if(this.crust === "stuffed") {
+         priceOfPizza += pizzaPrice.stuffed;
+      }
+      else if(this.crust === "pan") {
+         priceOfPizza += pizzaPrice.pan;
+      }
+      else {
+         // Thin and thick crust do not cost extra
+      }
+
+      // Double Cheese
+      if(this.doubleCheese) {
+         priceOfPizza += pizzaPrice.doubleCheese;
+      }
+
+      // Double Sauce
+      if(this.doubleSauce) {
+         priceOfPizza += pizzaPrice.doubleSauce;
+      }
+
+      // Toppings
+      priceOfPizza += (toppings.length * pizzaPrice.toppings);
+
    }
 }
 
