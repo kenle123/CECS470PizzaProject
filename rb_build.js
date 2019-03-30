@@ -1,4 +1,14 @@
-
+// Store prices of pizza items
+var pizzaPrice = {
+   size12: 11,
+   size14: 13,
+   size16: 16,
+   toppings: 1.50,
+   doubleSauce: 1.50,
+   doubleCheese: 1.50,
+   stuffed: 3.00,
+   pan: 2.00
+}
 
 /**
  * Class for cart
@@ -6,28 +16,19 @@
 class Cart {
    totalCostOfItems = 0;
    itemsInCart = [];
-   foodItem = new foodItem(0,0);
 
    constructor(totalCost, items) {
       this.totalCost = totalCost;
       this.itemsInCart = items;
    }
 
-   calculateCartTotal() {
-
+   addToCart(pizzaObject) {
+      itemsInCart.push(pizzaObject)
    }
 
-   addToCart() {
-      
+   removeFromCart(pizzaObject) {
+
    }
-
-//    greet() {
-//       return `${this.totalCost} says hello.`;
-//   }
-
-//   freelo() {
-//      return this.itemsInCart;
-//   }
 }
 
 /**
@@ -47,24 +48,12 @@ class foodItem {
    }
 }
 
-// Store prices of pizza items
-var pizzaPrice = {
-   size12: 11,
-   size14: 13,
-   size16: 16,
-   toppings: 1.50,
-   doubleSauce: 1.50,
-   doubleCheese: 1.50,
-   stuffed: 3.00,
-   pan: 2.00
-}
-
 class Pizza extends foodItem {
    size = "";
    crust = "";
    doubleSauce;
    doubleCheese;
-   toppings;
+   toppings = [];
 
    priceOfPizza = 0;
 
@@ -121,7 +110,7 @@ class Pizza extends foodItem {
    }
 }
 
-class Toppings extends foodItem{
+class Toppings extends foodItem {
    name = "";
    side = "";
 
@@ -135,28 +124,13 @@ class Toppings extends foodItem{
 
 
 
-window.onload = function () {
-   let cart = new Cart(32, [12,34,2]);
-   console.log(pizzaPrice.doubleCheese);
-   // let ez = gg.greet();
-   // console.log(ez);
-   // let free = gg.freelo()
-   // console.log(typeof(free))
-   // console.log(free[0])
+window.onload = function() {
+   var pizzaPreviewBox = document.getElementById("previewBox");
+   var cartTable = document.querySelector("table#cartTable");
+   // let cart = new Cart(32, [12,34,2]);
+   // console.log(pizzaPrice.doubleCheese);
+   
 
-   // function pizza() {
-   //    size: 0;
-   //    crust: 0;
-   //    doubleSausage: 0;
-   //    doubleCheese: 0;
-   //    toppings: [];
-   // }
-
-   // function topping() {
-   //    name: "",
-   //    side: ""
-
-   // }
 
 }
 
