@@ -19,7 +19,20 @@ class Cart {
 //   }
 }
 
+var pizzaPrice = {
+   size12: 11,
+   size14: 13,
+   size16: 16,
+   toppings: 1.50,
+   doubleSauce: 1.50,
+   doubleCheese: 1.50,
+   stuffed: 3.00,
+   pan: 2.00
+}
+
+
 let cart = new Cart(32, [12,34,2]);
+console.log(pizzaPrice.doubleCheese);
 // let ez = gg.greet();
 // console.log(ez);
 // let free = gg.freelo()
