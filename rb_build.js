@@ -1,13 +1,24 @@
 
 
-
+/**
+ * Class for cart
+ */
 class Cart {
    totalCostOfItems = 0;
    itemsInCart = [];
+   foodItem = new foodItem(0,0);
 
    constructor(totalCost, items) {
       this.totalCost = totalCost;
       this.itemsInCart = items;
+   }
+
+   calculateCartTotal() {
+
+   }
+
+   addToCart() {
+      
    }
 
 //    greet() {
@@ -19,6 +30,24 @@ class Cart {
 //   }
 }
 
+/**
+ * Class for individual food items
+ */
+class foodItem {
+   price = 0;
+   qty = 0;
+
+   constructor(price, qty) {
+      this.price = price;
+      this.qty = qty;
+   }
+
+   calculateItemCost() {
+      return this.price * this.qty;
+   }
+}
+
+// Store prices of pizza items
 var pizzaPrice = {
    size12: 11,
    size14: 13,
@@ -30,14 +59,67 @@ var pizzaPrice = {
    pan: 2.00
 }
 
+class Pizza extends foodItem {
+   size = "";
+   crust = "";
+   doubleSausage = true;
+   doubleCheese = true;
+   toppings;
 
-let cart = new Cart(32, [12,34,2]);
-console.log(pizzaPrice.doubleCheese);
-// let ez = gg.greet();
-// console.log(ez);
-// let free = gg.freelo()
-// console.log(typeof(free))
-// console.log(free[0])
+   constructor(price, qty, size, crust, doubleSausage, doubleChese, toppings) {
+      super(price, qty);
+
+      this.size = size;
+      this.crust = crust;
+      this.doubleSausage = doubleSausage;
+      this.doubleCheese = doubleChese;
+      this.toppings = toppings;
+   }
+
+   addToppingToPizza() {
+      
+   }
+}
+
+class Toppings extends foodItem{
+   name = "";
+   side = "";
+
+   constructor(price, qty, name, side) {
+      super(price, qty);
+
+      this.name = name;
+      this.side = side;
+   }
+}
+
+
+
+window.onload = function () {
+   let cart = new Cart(32, [12,34,2]);
+   console.log(pizzaPrice.doubleCheese);
+   // let ez = gg.greet();
+   // console.log(ez);
+   // let free = gg.freelo()
+   // console.log(typeof(free))
+   // console.log(free[0])
+
+   // function pizza() {
+   //    size: 0;
+   //    crust: 0;
+   //    doubleSausage: 0;
+   //    doubleCheese: 0;
+   //    toppings: [];
+   // }
+
+   // function topping() {
+   //    name: "",
+   //    side: ""
+
+   // }
+
+}
+
 
 
 
