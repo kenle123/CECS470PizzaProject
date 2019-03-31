@@ -21,14 +21,6 @@ class Cart {
       this.totalCost = totalCost;
       this.itemsInCart = items;
    }
-
-   addToCart(pizzaObject) {
-      itemsInCart.push(pizzaObject)
-   }
-
-   removeFromCart(pizzaObject) {
-
-   }
 }
 
 /**
@@ -48,7 +40,7 @@ class foodItem {
    }
 }
 
-class Pizza extends foodItem {
+class Pizza {
    size = "";
    crust = "";
    doubleSauce;
@@ -57,8 +49,8 @@ class Pizza extends foodItem {
 
    priceOfPizza = 0;
 
-   constructor(price, qty, size, crust, doubleSauce, doubleChese, toppings) {
-      super(price, qty);
+   constructor(size, crust, doubleSauce, doubleChese, toppings) {
+      //super(price, qty);
 
       this.size = size;
       this.crust = crust;
@@ -67,46 +59,37 @@ class Pizza extends foodItem {
       this.toppings = toppings;
    }
 
-   addToppingToPizza(toppingToAdd) {
-      toppings.push(toppingToAdd);
-   }
-
    calculatePizzaPrice() {
       // Size
-      if(this.size === 12) {
+      if (this.size === 12) {
          priceOfPizza += pizzaPrice.size12;
-      }
-      else if(this.size === 14) {
+      } else if (this.size === 14) {
          priceOfPizza += pizzaPrice.size14;
-      }
-      else {
+      } else {
          priceOfPizza += pizzaPrice.size16;
       }
 
       // Crust
-      if(this.crust === "stuffed") {
+      if (this.crust === "stuffed") {
          priceOfPizza += pizzaPrice.stuffed;
-      }
-      else if(this.crust === "pan") {
+      } else if (this.crust === "pan") {
          priceOfPizza += pizzaPrice.pan;
-      }
-      else {
+      } else {
          // Thin and thick crust do not cost extra
       }
 
       // Double Cheese
-      if(this.doubleCheese) {
+      if (this.doubleCheese) {
          priceOfPizza += pizzaPrice.doubleCheese;
       }
 
       // Double Sauce
-      if(this.doubleSauce) {
+      if (this.doubleSauce) {
          priceOfPizza += pizzaPrice.doubleSauce;
       }
 
       // Toppings
       priceOfPizza += (toppings.length * pizzaPrice.toppings);
-
    }
 }
 
@@ -122,14 +105,28 @@ class Toppings extends foodItem {
    }
 }
 
-
-
-window.onload = function() {
+window.onload = function () {
+   // Pizza image
    var pizzaPreviewBox = document.getElementById("previewBox");
+
+   // Cart Table
    var cartTable = document.querySelector("table#cartTable");
-   // let cart = new Cart(32, [12,34,2]);
-   // console.log(pizzaPrice.doubleCheese);
+
+   // Pizza summary
+   var pizzaSummary = document.getElementById("pizzaSummary");
+
+
+   // Initialize test pizza
+   toppingsArray = new Array();
+   pizza = new Pizza(14, "thin", true, true, toppingsArray);
    
+   // On click listener for add to cart button
+   var addToCartButton = document.getElementById("addToCart").onclick = function() {
+      pizzaSummary.innerHTML = "GG"
+   }
+
+
+
 
 
 }
@@ -142,15 +139,14 @@ window.onload = function() {
 /*-------------------- Custom Methods --------------------*/
 
 /* Method added to any DOM element that removes all child nodes of element */
-HTMLElement.prototype.removeChildren = function() {
+HTMLElement.prototype.removeChildren = function () {
    while (this.firstChild) {
       this.removeChild(this.firstChild);
-   }   
+   }
 };
 
 /* Method added to the select element to return the value of the selected option */
-HTMLSelectElement.prototype.selectedValue = function() {
+HTMLSelectElement.prototype.selectedValue = function () {
    var sIndex = this.selectedIndex;
    return this.options[sIndex].value;
 };
-
