@@ -114,15 +114,44 @@ window.onload = function () {
 
    // Pizza summary
    var pizzaSummary = document.getElementById("pizzaSummary");
+   
+   // Pizza Options
+   var pizzaOptions = document.getElementById("pizzaOptions")
 
+   // Set event listener for when user picks new options in the options menu
+   pizzaOptions.addEventListener("input", function() {
+      // Pizza Size
+      var pizzaSize = document.getElementById("pizzaSize").value + "\" pizza, ";
+      pizzaSummary.innerHTML = pizzaSize;
 
+      // Pizza Crust
+      var pizzaCrust = document.getElementById("pizzaCrust").value;
+      pizzaSummary.innerHTML += pizzaCrust;
+
+      // Double Sauce checkbox
+      var doubleSauceCheckBox = document.getElementById("doubleSauce").checked;
+		if(doubleSauceCheckBox) {
+         pizzaSummary.innerHTML += ", double sauce"
+      } 
+
+      // Double Cheese checkbox
+      var doubleCheeseCheckBox = document.getElementById("doubleCheese").checked;
+		if(doubleCheeseCheckBox) {
+         pizzaSummary.innerHTML += ", double cheese"
+      } 
+   });
+   
+   
+
+   
+   
    // Initialize test pizza
    toppingsArray = new Array();
    pizza = new Pizza(14, "thin", true, true, toppingsArray);
    
    // On click listener for add to cart button
    var addToCartButton = document.getElementById("addToCart").onclick = function() {
-      pizzaSummary.innerHTML = "GG"
+      
    }
 
 
