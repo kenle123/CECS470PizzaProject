@@ -233,30 +233,41 @@ function init() {
 
    // On click listener for add to cart button
    var addToCartButton = document.getElementById("addToCart").onclick = function () {
-      var pizzaSummaryCopy = pizzaSummary.cloneNode(true);
+      let pizzaSummaryCopy = pizzaSummary.cloneNode(true);
 
-      var newRow = document.createElement("tr");
-      var newDataItem = document.createElement("td");
-      var newDataQty = document.createElement("td");
-      var newDataPrice = document.createElement("td");
-      var newDataDelete = document.createElement("td");
+      // Creates the new row elements
+      let newRow = document.createElement("tr");
+      let newDataItem = document.createElement("td");
+      let newDataQty = document.createElement("td");
+      let newDataPrice = document.createElement("td");
+      let newDataDelete = document.createElement("td");
 
-      var test = document.createTextNode(pizzaSummaryCopy.innerHTML);
-      newDataItem.appendChild(test);
+      // Item Description to be appended onto table
+      let itemDescription = document.createTextNode(pizzaSummaryCopy.innerHTML);
+      newDataItem.appendChild(itemDescription);
 
-      // Pizza quantity
-      var pizzaQuantity = document.getElementById("pizzaQuantity").value;
+      // Pizza quantity to be appended onto table
+      let pizzaQuantity = document.getElementById("pizzaQuantity").value;
       newDataQty.innerHTML = pizzaQuantity;
 
+      // TODO: hard-coded for now, have to get price 
+      // Pizza price to be appended onto table
+      let pizzaPriceTable = document.createTextNode("$23.00");
+      newDataPrice.appendChild(pizzaPriceTable);
+
+      // Delete pizza item
+      let deletePizzaItem = document.createElement("button");
+      deletePizzaItem.innerHTML = "x";
+      newDataDelete.appendChild(deletePizzaItem);
+
+      // Appends the item, qty, price, and delete button onto a new row
       newRow.appendChild(newDataItem);
       newRow.appendChild(newDataQty);
       newRow.appendChild(newDataPrice);
       newRow.appendChild(newDataDelete);
-
-
-
-
-      cartTable.childNodes[2].after(newRow);
+      
+      // Adds the new row into the table
+      cartTable.appendChild(newRow);
    }
 
 
