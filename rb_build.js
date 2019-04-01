@@ -105,7 +105,11 @@ class Toppings extends foodItem {
    }
 }
 
-window.onload = function () {
+window.onload = init();
+
+var doubleCheeseCheckBox;
+var doubleSauceCheckBox;
+function init() {
    // Pizza image
    var pizzaPreviewBox = document.getElementById("previewBox");
 
@@ -116,7 +120,8 @@ window.onload = function () {
    var pizzaSummary = document.getElementById("pizzaSummary");
 
    // Pizza Options with event handler for when input changes
-   var pizzaOptions = document.getElementById("pizzaOptions").addEventListener("input", function () {
+   var pizzaOptions = document.getElementById("pizzaOptions");
+   pizzaOptions.addEventListener("input", function () {
       // Pizza Size
       var pizzaSize = document.getElementById("pizzaSize").value + "\" pizza, ";
       pizzaSummary.innerHTML = pizzaSize;
@@ -126,89 +131,97 @@ window.onload = function () {
       pizzaSummary.innerHTML += pizzaCrust;
 
       // Double Sauce checkbox
-      var doubleSauceCheckBox = document.getElementById("doubleSauce").checked;
+      doubleSauceCheckBox = document.getElementById("doubleSauce").checked;
       if (doubleSauceCheckBox) {
          pizzaSummary.innerHTML += ", double sauce"
       }
 
       // Double Cheese checkbox
-      var doubleCheeseCheckBox = document.getElementById("doubleCheese").checked;
+      doubleCheeseCheckBox = document.getElementById("doubleCheese").checked;
       if (doubleCheeseCheckBox) {
          pizzaSummary.innerHTML += ", double cheese"
       }
-      
    });
 
+
+
+
+   // console.log(pizzaSummary);
+   // console.log(pizzaCrust);
+   // console.log(doubleSauceCheckBox);
+   //console.log(doubleCheeseCheckBox);
+
+
    // Pizza toppings with event handler for when input changes
-   var pizzaToppings = document.getElementById("toppings").addEventListener("input", function() {
+   var pizzaToppings = document.getElementById("toppings").addEventListener("input", function () {
       // Pepperoni
       var pepperoni = document.getElementsByName("pepperoni");
-      for(let i = 0; i < pepperoni.length; i++) {
-         if(pepperoni[i].checked) {
+      for (let i = 0; i < pepperoni.length; i++) {
+         if (pepperoni[i].checked) {
             pizzaSummary += ", pepperoni " + "(" + pepperoni[i].value + ")";
          }
       }
 
       // Ham
       var ham = document.getElementsByName("ham");
-      for(let i = 0; i < ham.length; i++) {
-         if(ham[i].checked) {
+      for (let i = 0; i < ham.length; i++) {
+         if (ham[i].checked) {
             pizzaSummary += ", ham " + "(" + ham[i].value + ")";
          }
       }
 
       // Sausage
       var sausage = document.getElementsByName("sausage");
-      for(let i = 0; i < sausage.length; i++) {
-         if(sausage[i].checked) {
+      for (let i = 0; i < sausage.length; i++) {
+         if (sausage[i].checked) {
             pizzaSummary += ", sausage " + "(" + sausage[i].value + ")";
          }
       }
 
       // Chicken
       var chicken = document.getElementsByName("chicken");
-      for(let i = 0; i < chicken.length; i++) {
-         if(chicken[i].checked) {
+      for (let i = 0; i < chicken.length; i++) {
+         if (chicken[i].checked) {
             pizzaSummary += ", chicken " + "(" + chicken[i].value + ")";
          }
       }
 
       // Mushrooms
       var mushrooms = document.getElementsByName("mushroom");
-      for(let i = 0; i < mushrooms.length; i++) {
-         if(mushrooms[i].checked) {
+      for (let i = 0; i < mushrooms.length; i++) {
+         if (mushrooms[i].checked) {
             pizzaSummary += ", mushroom " + "(" + mushrooms[i].value + ")";
          }
       }
 
       // Green Peppers
       var greenpepper = document.getElementsByName("greenpepper");
-      for(let i = 0; i < greenpepper.length; i++) {
-         if(greenpepper[i].checked) {
+      for (let i = 0; i < greenpepper.length; i++) {
+         if (greenpepper[i].checked) {
             pizzaSummary += ", greenpepper " + "(" + greenpepper[i].value + ")";
          }
       }
 
       // Onions
       var onion = document.getElementsByName("onion");
-      for(let i = 0; i < onion.length; i++) {
-         if(onion[i].checked) {
+      for (let i = 0; i < onion.length; i++) {
+         if (onion[i].checked) {
             pizzaSummary += ", onion " + "(" + onion[i].value + ")";
          }
       }
 
       // Tomatoes
       var tomato = document.getElementsByName("tomato");
-      for(let i = 0; i < tomato.length; i++) {
-         if(tomato[i].checked) {
+      for (let i = 0; i < tomato.length; i++) {
+         if (tomato[i].checked) {
             pizzaSummary += ", tomato " + "(" + tomato[i].value + ")";
          }
       }
 
       // Jalapenos
       var jalapeno = document.getElementsByName("jalapeno");
-      for(let i = 0; i < jalapeno.length; i++) {
-         if(jalapeno[i].checked) {
+      for (let i = 0; i < jalapeno.length; i++) {
+         if (jalapeno[i].checked) {
             pizzaSummary += ", jalapeno " + "(" + jalapeno[i].value + ")";
          }
       }
@@ -220,7 +233,30 @@ window.onload = function () {
 
    // On click listener for add to cart button
    var addToCartButton = document.getElementById("addToCart").onclick = function () {
+      var pizzaSummaryCopy = pizzaSummary.cloneNode(true);
 
+      var newRow = document.createElement("tr");
+      var newDataItem = document.createElement("td");
+      var newDataQty = document.createElement("td");
+      var newDataPrice = document.createElement("td");
+      var newDataDelete = document.createElement("td");
+
+      var test = document.createTextNode(pizzaSummaryCopy.innerHTML);
+      newDataItem.appendChild(test);
+
+      // Pizza quantity
+      var pizzaQuantity = document.getElementById("pizzaQuantity").value;
+      newDataQty.innerHTML = pizzaQuantity;
+
+      newRow.appendChild(newDataItem);
+      newRow.appendChild(newDataQty);
+      newRow.appendChild(newDataPrice);
+      newRow.appendChild(newDataDelete);
+
+
+
+
+      cartTable.childNodes[2].after(newRow);
    }
 
 
@@ -228,6 +264,8 @@ window.onload = function () {
 
 
 }
+
+//setInterval("init()", 1000);
 
 
 
