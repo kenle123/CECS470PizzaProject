@@ -93,12 +93,11 @@ class Pizza {
    }
 }
 
-class Toppings extends foodItem {
+class Toppings {
    name = "";
    side = "";
 
-   constructor(price, qty, name, side) {
-      super(price, qty);
+   constructor(name, side) {
 
       this.name = name;
       this.side = side;
@@ -114,7 +113,6 @@ var doubleSauceCheckBox;
 
 // Init function 
 function init() {
-   console.log("hehexd");
    // Pizza image
    var pizzaPreviewBox = document.getElementById("previewBox");
 
@@ -222,13 +220,12 @@ function init() {
 
    // Pizza toppings with event handler for when input changes
    // var pizzaToppings = document.getElementById("toppings").addEventListener("input", function () {
-      
+
    // });
 
    // Initialize test pizza
    toppingsArray = new Array();
-   pizza = new Pizza(14, "thin", true, true, toppingsArray);
-   console.log("jlfsjdf");
+   // pizza = new Pizza(14, "thin", true, true, toppingsArray);
 
    // On click listener for add to cart button
    var addToCartButton = document.getElementById("addToCart").onclick = function () {
@@ -249,8 +246,24 @@ function init() {
       let pizzaQuantity = document.getElementById("pizzaQuantity").value;
       newDataQty.innerHTML = pizzaQuantity;
 
-      // TODO: hard-coded for now, have to get price 
       // Pizza price to be appended onto table
+      // Splits up the pizza summary by commas
+      var pizzaPrices = pizzaSummaryCopy.innerHTML.split(",").map(item => item.trim());
+
+      // Filters the array by seeing if each index of the array has a "("
+      let stringToInclude = "(";
+      let toppingsArrayBefore = pizzaPrices.filter(item => item.includes(stringToInclude));
+
+      // Goes through the toppings and splits it up by name, side and insert into toppings array
+      for (item of toppingsArrayBefore) {
+         var nameOfTopping = item.substr(0, item.indexOf("("));
+         var sideOfTopping = item.substr(item.indexOf("("), item.indexOf(")"));
+         toppingsArray.push(new Toppings(nameOfTopping, sideOfTopping)); 
+      }
+
+      console.log(toppingsArray.length);
+      console.log(toppingsArray[0].side);
+
       let pizzaPriceTable = document.createTextNode("$23.00");
       newDataPrice.appendChild(pizzaPriceTable);
 
@@ -264,7 +277,7 @@ function init() {
       newRow.appendChild(newDataQty);
       newRow.appendChild(newDataPrice);
       newRow.appendChild(newDataDelete);
-      
+
       // Adds the new row into the table
       cartTable.appendChild(newRow);
    }
@@ -273,13 +286,6 @@ function init() {
 
 
 }
-
-//setInterval("init()", 1000);
-
-
-
-
-
 
 /*-------------------- Custom Methods --------------------*/
 
