@@ -3,7 +3,8 @@ var pizzaPrice = {
    size12: 11,
    size14: 13,
    size16: 16,
-   toppings: 1.50,
+   toppingsFull: 1.50,
+   toppingsSide: 0.75,
    doubleSauce: 1.50,
    doubleCheese: 1.50,
    stuffed: 3.00,
@@ -298,11 +299,20 @@ function init() {
          totalPizzaPrice += pizzaPrice.doubleCheese;
       }
 
-      console.log(totalPizzaPrice);
+      // Toppings
+      for(let i = 0; i < pizza.toppings.length; i++) {
+         //console.log(pizza.toppings[i].side);
+         if(pizza.toppings[i].side === "(full)") {
+            totalPizzaPrice += pizzaPrice.toppingsFull;
+         }
+         else {
+            totalPizzaPrice += pizzaPrice.toppingsSide;
+         }
+      }
 
-
-      // let pizzaPriceTable = document.createTextNode("$23.00");
-      // newDataPrice.appendChild(pizzaPriceTable);
+      // Append price onto table
+      let pizzaPriceTable = document.createTextNode("$" + totalPizzaPrice);
+      newDataPrice.appendChild(pizzaPriceTable);
 
       // Delete pizza item
       let deletePizzaItem = document.createElement("button");
