@@ -25,20 +25,20 @@ class Cart {
 
 /**
  * Class for individual food items
- */
-class foodItem {
-   price = 0;
-   qty = 0;
+//  */
+// class foodItem {
+//    price = 0;
+//    qty = 0;
 
-   constructor(price, qty) {
-      this.price = price;
-      this.qty = qty;
-   }
+//    constructor(price, qty) {
+//       this.price = price;
+//       this.qty = qty;
+//    }
 
-   calculateItemCost() {
-      return this.price * this.qty;
-   }
-}
+//    calculateItemCost() {
+//       return this.price * this.qty;
+//    }
+// }
 
 class Pizza {
    size = "";
@@ -108,8 +108,6 @@ window.onload = init();
 
 var doubleCheeseCheckBox;
 var doubleSauceCheckBox;
-
-
 
 // Init function 
 function init() {
@@ -223,10 +221,6 @@ function init() {
 
    // });
 
-   // Initialize test pizza
-   toppingsArray = new Array();
-   // pizza = new Pizza(14, "thin", true, true, toppingsArray);
-
    // On click listener for add to cart button
    var addToCartButton = document.getElementById("addToCart").onclick = function () {
       let pizzaSummaryCopy = pizzaSummary.cloneNode(true);
@@ -254,18 +248,61 @@ function init() {
       let stringToInclude = "(";
       let toppingsArrayBefore = pizzaPrices.filter(item => item.includes(stringToInclude));
 
+      toppingsArray = new Array();
+
       // Goes through the toppings and splits it up by name, side and insert into toppings array
       for (item of toppingsArrayBefore) {
          var nameOfTopping = item.substr(0, item.indexOf("("));
          var sideOfTopping = item.substr(item.indexOf("("), item.indexOf(")"));
-         toppingsArray.push(new Toppings(nameOfTopping, sideOfTopping)); 
+         toppingsArray.push(new Toppings(nameOfTopping, sideOfTopping));
       }
 
-      console.log(toppingsArray.length);
-      console.log(toppingsArray[0].side);
+      // Get size and crust
+      var pizzaSizeCart = document.getElementById("pizzaSize").value;
+      var pizzaCrustCart = document.getElementById("pizzaCrust").value;
+      
+      // Initialize a new pizza
+      var pizza = new Pizza(pizzaSizeCart, pizzaCrustCart, doubleSauceCheckBox, doubleCheeseCheckBox, toppingsArray);
+      
+      var totalPizzaPrice = 0;
 
-      let pizzaPriceTable = document.createTextNode("$23.00");
-      newDataPrice.appendChild(pizzaPriceTable);
+      // Start calculating the price of the pizza
+      // Size
+      if(pizza.size === "12") {
+         totalPizzaPrice += pizzaPrice.size12;
+      }
+
+      else if(pizza.size === "14") {
+         totalPizzaPrice += pizzaPrice.size14;
+      }
+      else {
+         totalPizzaPrice += pizzaPrice.size16;
+      }
+
+      // Crust
+      if(pizza.crust === "stuffed") {
+         totalPizzaPrice += pizzaPrice.stuffed;
+      }
+
+      else if(pizza.crust === "pan") {
+         totalPizzaPrice += pizzaPrice.pan;
+      }
+      
+      // Double Sauce
+      if(typeof pizza.doubleSauce !== "undefined" && pizza.doubleSauce !== false) {
+         totalPizzaPrice += pizzaPrice.doubleSauce;
+      }
+
+      // Double Cheese
+      if(typeof pizza.doubleCheese !== "undefined" && pizza.doubleCheese !== false) {
+         totalPizzaPrice += pizzaPrice.doubleCheese;
+      }
+
+      console.log(totalPizzaPrice);
+
+
+      // let pizzaPriceTable = document.createTextNode("$23.00");
+      // newDataPrice.appendChild(pizzaPriceTable);
 
       // Delete pizza item
       let deletePizzaItem = document.createElement("button");
