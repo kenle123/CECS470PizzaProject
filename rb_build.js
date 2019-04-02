@@ -11,36 +11,6 @@ var pizzaPrice = {
    pan: 2.00
 }
 
-/**
- * Class for cart
- */
-class Cart {
-   totalCostOfItems = 0;
-   itemsInCart = [];
-
-   constructor(totalCost, items) {
-      this.totalCost = totalCost;
-      this.itemsInCart = items;
-   }
-}
-
-/**
- * Class for individual food items
-//  */
-// class foodItem {
-//    price = 0;
-//    qty = 0;
-
-//    constructor(price, qty) {
-//       this.price = price;
-//       this.qty = qty;
-//    }
-
-//    calculateItemCost() {
-//       return this.price * this.qty;
-//    }
-// }
-
 class Pizza {
    size = "";
    crust = "";
@@ -48,49 +18,12 @@ class Pizza {
    doubleCheese;
    toppings = [];
 
-   priceOfPizza = 0;
-
    constructor(size, crust, doubleSauce, doubleChese, toppings) {
-      //super(price, qty);
-
       this.size = size;
       this.crust = crust;
       this.doubleSauce = doubleSauce;
       this.doubleCheese = doubleChese;
       this.toppings = toppings;
-   }
-
-   calculatePizzaPrice() {
-      // Size
-      if (this.size === 12) {
-         priceOfPizza += pizzaPrice.size12;
-      } else if (this.size === 14) {
-         priceOfPizza += pizzaPrice.size14;
-      } else {
-         priceOfPizza += pizzaPrice.size16;
-      }
-
-      // Crust
-      if (this.crust === "stuffed") {
-         priceOfPizza += pizzaPrice.stuffed;
-      } else if (this.crust === "pan") {
-         priceOfPizza += pizzaPrice.pan;
-      } else {
-         // Thin and thick crust do not cost extra
-      }
-
-      // Double Cheese
-      if (this.doubleCheese) {
-         priceOfPizza += pizzaPrice.doubleCheese;
-      }
-
-      // Double Sauce
-      if (this.doubleSauce) {
-         priceOfPizza += pizzaPrice.doubleSauce;
-      }
-
-      // Toppings
-      priceOfPizza += (toppings.length * pizzaPrice.toppings);
    }
 }
 
@@ -99,7 +32,6 @@ class Toppings {
    side = "";
 
    constructor(name, side) {
-
       this.name = name;
       this.side = side;
    }
@@ -107,8 +39,13 @@ class Toppings {
 
 window.onload = init();
 
+// Global Variables
 var doubleCheeseCheckBox;
 var doubleSauceCheckBox;
+
+let cartTotal = document.getElementById("cartTotal");
+let cartTotalPrice = parseFloat(cartTotal.value);
+cartTotalPrice = 0;
 
 // Init function 
 function init() {
@@ -217,11 +154,6 @@ function init() {
       }
    });
 
-   // Pizza toppings with event handler for when input changes
-   // var pizzaToppings = document.getElementById("toppings").addEventListener("input", function () {
-
-   // });
-
    // On click listener for add to cart button
    var addToCartButton = document.getElementById("addToCart").onclick = function () {
       let pizzaSummaryCopy = pizzaSummary.cloneNode(true);
@@ -261,51 +193,44 @@ function init() {
       // Get size and crust
       var pizzaSizeCart = document.getElementById("pizzaSize").value;
       var pizzaCrustCart = document.getElementById("pizzaCrust").value;
-      
+
       // Initialize a new pizza
       var pizza = new Pizza(pizzaSizeCart, pizzaCrustCart, doubleSauceCheckBox, doubleCheeseCheckBox, toppingsArray);
-      
+
       var totalPizzaPrice = 0;
 
       // Start calculating the price of the pizza
       // Size
-      if(pizza.size === "12") {
+      if (pizza.size === "12") {
          totalPizzaPrice += pizzaPrice.size12;
-      }
-
-      else if(pizza.size === "14") {
+      } else if (pizza.size === "14") {
          totalPizzaPrice += pizzaPrice.size14;
-      }
-      else {
+      } else {
          totalPizzaPrice += pizzaPrice.size16;
       }
 
       // Crust
-      if(pizza.crust === "stuffed") {
+      if (pizza.crust === "stuffed") {
          totalPizzaPrice += pizzaPrice.stuffed;
-      }
-
-      else if(pizza.crust === "pan") {
+      } else if (pizza.crust === "pan") {
          totalPizzaPrice += pizzaPrice.pan;
       }
-      
+
       // Double Sauce
-      if(typeof pizza.doubleSauce !== "undefined" && pizza.doubleSauce !== false) {
+      if (typeof pizza.doubleSauce !== "undefined" && pizza.doubleSauce !== false) {
          totalPizzaPrice += pizzaPrice.doubleSauce;
       }
 
       // Double Cheese
-      if(typeof pizza.doubleCheese !== "undefined" && pizza.doubleCheese !== false) {
+      if (typeof pizza.doubleCheese !== "undefined" && pizza.doubleCheese !== false) {
          totalPizzaPrice += pizzaPrice.doubleCheese;
       }
 
       // Toppings
-      for(let i = 0; i < pizza.toppings.length; i++) {
-         //console.log(pizza.toppings[i].side);
-         if(pizza.toppings[i].side === "(full)") {
+      for (let i = 0; i < pizza.toppings.length; i++) {
+         if (pizza.toppings[i].side === "(full)") {
             totalPizzaPrice += pizzaPrice.toppingsFull;
-         }
-         else {
+         } else {
             totalPizzaPrice += pizzaPrice.toppingsSide;
          }
       }
@@ -327,6 +252,10 @@ function init() {
 
       // Adds the new row into the table
       cartTable.appendChild(newRow);
+
+      // Update total
+      cartTotalPrice += totalPizzaPrice * pizzaQuantity;
+      cartTotal.value = "$" + cartTotalPrice;
    }
 
 
