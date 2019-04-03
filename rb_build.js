@@ -58,34 +58,41 @@ function init() {
    // Pizza summary shown above quantity option
    var pizzaSummary = document.getElementById("pizzaSummary");
 
-   var pizzaOptions = document.getElementById("pizzaOptions").addEventListener("input", function () {
+   var pizzaSummary1 = "14\" pizza, thin";
+   var pizzaSummary2 = "";
+
+   var pizzaOptions = document.getElementById("pizzaOptions").addEventListener("change", function () {
+      pizzaSummary1 = "";
       // Pizza Size
       var pizzaSize = document.getElementById("pizzaSize").value + "\" pizza, ";
-      pizzaSummary.innerHTML = pizzaSize;
+      pizzaSummary1 += pizzaSize;
 
       // Pizza Crust
       var pizzaCrust = document.getElementById("pizzaCrust").value;
-      pizzaSummary.innerHTML += pizzaCrust;
+      pizzaSummary1 += pizzaCrust;
 
       // Double Sauce checkbox
       doubleSauceCheckBox = document.getElementById("doubleSauce").checked;
       if (doubleSauceCheckBox) {
-         pizzaSummary.innerHTML += ", double sauce"
+         pizzaSummary1 += ", double sauce"
       }
 
       // Double Cheese checkbox
       doubleCheeseCheckBox = document.getElementById("doubleCheese").checked;
       if (doubleCheeseCheckBox) {
-         pizzaSummary.innerHTML += ", double cheese"
+         pizzaSummary1 += ", double cheese"
       }
+      combinePizzaItems(pizzaSummary1, pizzaSummary2);
+   });
 
+   var toppingsChange = document.getElementById("toppings").addEventListener("change", function () {
+      pizzaSummary2 = "";
       // Pepperoni
       var pepperoni = document.getElementsByName("pepperoni");
       for (let i = 0; i < pepperoni.length; i++) {
          //console.log("got here")
          if (pepperoni[i].checked && pepperoni[i].value != "none") {
-            pizzaSummary.innerHTML += ", pepperoni" + "(" + pepperoni[i].value + ")";
-            continue;
+            pizzaSummary2 += ", pepperoni" + "(" + pepperoni[i].value + ")";
          }
       }
 
@@ -93,7 +100,7 @@ function init() {
       var ham = document.getElementsByName("ham");
       for (let i = 0; i < ham.length; i++) {
          if (ham[i].checked && ham[i].value != "none") {
-            pizzaSummary.innerHTML += ", ham" + "(" + ham[i].value + ")";
+            pizzaSummary2 += ", ham" + "(" + ham[i].value + ")";
          }
       }
 
@@ -101,7 +108,7 @@ function init() {
       var sausage = document.getElementsByName("sausage");
       for (let i = 0; i < sausage.length; i++) {
          if (sausage[i].checked && sausage[i].value != "none") {
-            pizzaSummary.innerHTML += ", sausage" + "(" + sausage[i].value + ")";
+            pizzaSummary2 += ", sausage" + "(" + sausage[i].value + ")";
          }
       }
 
@@ -109,7 +116,7 @@ function init() {
       var chicken = document.getElementsByName("chicken");
       for (let i = 0; i < chicken.length; i++) {
          if (chicken[i].checked && chicken[i].value != "none") {
-            pizzaSummary.innerHTML += ", chicken" + "(" + chicken[i].value + ")";
+            pizzaSummary2 += ", chicken" + "(" + chicken[i].value + ")";
          }
       }
 
@@ -117,7 +124,7 @@ function init() {
       var mushrooms = document.getElementsByName("mushroom");
       for (let i = 0; i < mushrooms.length; i++) {
          if (mushrooms[i].checked && mushrooms[i].value != "none") {
-            pizzaSummary.innerHTML += ", mushroom" + "(" + mushrooms[i].value + ")";
+            pizzaSummary2 += ", mushroom" + "(" + mushrooms[i].value + ")";
          }
       }
 
@@ -125,7 +132,7 @@ function init() {
       var greenpepper = document.getElementsByName("greenpepper");
       for (let i = 0; i < greenpepper.length; i++) {
          if (greenpepper[i].checked && greenpepper[i].value != "none") {
-            pizzaSummary.innerHTML += ", greenpepper" + "(" + greenpepper[i].value + ")";
+            pizzaSummary2 += ", greenpepper" + "(" + greenpepper[i].value + ")";
          }
       }
 
@@ -133,7 +140,7 @@ function init() {
       var onion = document.getElementsByName("onion");
       for (let i = 0; i < onion.length; i++) {
          if (onion[i].checked && onion[i].value != "none") {
-            pizzaSummary.innerHTML += ", onion" + "(" + onion[i].value + ")";
+            pizzaSummary2 += ", onion" + "(" + onion[i].value + ")";
          }
       }
 
@@ -141,7 +148,7 @@ function init() {
       var tomato = document.getElementsByName("tomato");
       for (let i = 0; i < tomato.length; i++) {
          if (tomato[i].checked && tomato[i].value != "none") {
-            pizzaSummary.innerHTML += ", tomato" + "(" + tomato[i].value + ")";
+            pizzaSummary2 += ", tomato" + "(" + tomato[i].value + ")";
          }
       }
 
@@ -149,10 +156,21 @@ function init() {
       var jalapeno = document.getElementsByName("jalapeno");
       for (let i = 0; i < jalapeno.length; i++) {
          if (jalapeno[i].checked && jalapeno[i].value != "none") {
-            pizzaSummary.innerHTML += ", jalapeno" + "(" + jalapeno[i].value + ")";
+            pizzaSummary2 += ", jalapeno" + "(" + jalapeno[i].value + ")";
          }
       }
+      combinePizzaItems(pizzaSummary1, pizzaSummary2);
+      //checkForDuplicates();
    });
+
+   /**
+    * Combines the pizza summary from options menu and toppings menu
+    * @param {*} item1 Options menu 
+    * @param {*} item2 Toppings menu
+    */
+   function combinePizzaItems(item1, item2) {
+      pizzaSummary.innerHTML = item1 + item2;
+   }
 
    // On click listener for add to cart button
    var addToCartButton = document.getElementById("addToCart").onclick = function () {
@@ -257,10 +275,6 @@ function init() {
       cartTotalPrice += totalPizzaPrice * pizzaQuantity;
       cartTotal.value = "$" + cartTotalPrice;
    }
-
-
-
-
 }
 
 /*-------------------- Custom Methods --------------------*/
