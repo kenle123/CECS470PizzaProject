@@ -47,6 +47,10 @@ let cartTotal = document.getElementById("cartTotal");
 let cartTotalPrice = parseFloat(cartTotal.value);
 cartTotalPrice = 0;
 
+var arr = [];
+var arrPrice = [];
+var rowId = 1;
+
 // Init function 
 function init() {
    // Pizza image
@@ -160,11 +164,11 @@ function init() {
          }
       }
       combinePizzaItems(pizzaSummary1, pizzaSummary2);
-      //checkForDuplicates();
    });
 
    /**
-    * Combines the pizza summary from options menu and toppings menu
+    * Combines the pizza summary from options menu and toppings menu to make
+    * a single summary
     * @param {*} item1 Options menu 
     * @param {*} item2 Toppings menu
     */
@@ -172,16 +176,12 @@ function init() {
       pizzaSummary.innerHTML = item1 + item2;
    }
 
-   var rowId = 1;
-   
    // On click listener for add to cart button
    var addToCartButton = document.getElementById("addToCart").onclick = function () {
       let pizzaSummaryCopy = pizzaSummary.cloneNode(true);
 
       // Creates the new row elements
       let newRow = document.createElement("tr");
-      //newRow.setAttribute("id", rowId);
-      //rowId++;
       let newDataItem = document.createElement("td");
       let newDataQty = document.createElement("td");
       let newDataPrice = document.createElement("td");
@@ -266,11 +266,9 @@ function init() {
       deletePizzaItem.innerHTML = "x";
       deletePizzaItem.setAttribute("id", rowId);
       arr.push(rowId);
-      
       rowId++;
       deletePizzaItem.addEventListener("click", function (e) {
-         deleteRowFromTable(e.target.id);
-         //var priceDelete = 
+         deleteRowFromTableAndUpdatePrice(e.target.id);
       });
       newDataDelete.appendChild(deletePizzaItem);
 
@@ -284,31 +282,32 @@ function init() {
       cartTable.appendChild(newRow);
 
       // Update total
-      updatePriceOnAdd(totalPizzaPrice, pizzaQuantity);
-   }
+      cartTotalPrice += totalPizzaPrice * pizzaQuantity;
 
-   var arr = [];
-   var arrPrice = [];
-
-   function deleteRowFromTable(itemId) {
-      //console.log(arr);
-      // Keeps track of what item to delete based on an array of the button IDs
-      var indexOfElement = arr.indexOf(parseFloat(itemId));
-      arr.splice(indexOfElement, 1);
-      cartTable.deleteRow(parseFloat(indexOfElement)+1);
-      //console.log(arr);
-      deleteFromTotal();
-   }
-
-   function updatePriceOnAdd(tPrice, pQty) {
-      cartTotalPrice += tPrice * pQty;
-      arrPrice.push(cartTotalPrice);
-      //console.log(arrPrice);
+      // Update arrPrice with the cost of each pizza
+      if(arrPrice.length === 0) {
+         arrPrice.push(cartTotalPrice);
+      } else {
+         arrPrice.push(cartTotalPrice - arrPrice.reduce(getSum));
+      }
       cartTotal.value = "$" + cartTotalPrice;
    }
 
-   function deleteFromTotal() {
-      console.log(arrPrice);
+   function deleteRowFromTableAndUpdatePrice(itemId) {
+      // Keeps track of what item to delete based on an array of the button IDs
+      var indexOfElement = arr.indexOf(parseFloat(itemId));
+
+      arr.splice(indexOfElement, 1);
+      cartTotalPrice -= arrPrice[indexOfElement];
+      cartTotal.value = "$" + cartTotalPrice;
+      arrPrice.splice(indexOfElement, 1);
+
+      cartTable.deleteRow(parseFloat(indexOfElement) + 1);
+   }
+
+   // Gets total sum of array
+   function getSum(total, num) {
+      return total + num;
    }
 }
 
