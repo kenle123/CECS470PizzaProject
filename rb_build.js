@@ -57,17 +57,12 @@ var arrPrice = [];
 // [3] is for ham
 // and etc.
 var toppingsArrayPreview = new Array(11);
-console.log(toppingsArrayPreview.length);
-console.log(toppingsArrayPreview);
-toppingsArrayPreview[0] = false;
-toppingsArrayPreview[1] = false;
 var rowId = 1;
 
 // Init function 
 function init() {
    // Pizza image
    var pizzaPreviewBox = document.getElementById("previewBox");
-   console.log(pizzaPreviewBox);
 
    // Cart Table
    var cartTable = document.querySelector("table#cartTable");
@@ -89,8 +84,8 @@ function init() {
       pizzaSummary1 += pizzaCrust;
 
       // Double Sauce checkbox
-      doubleSauceCheckBox = document.getElementById("doubleSauce").checked;
-      if (doubleSauceCheckBox) {
+      doubleSauceCheckBox = document.getElementById("doubleSauce");
+      if (doubleSauceCheckBox.checked) {
          pizzaSummary1 += ", double sauce"
          toppingsArrayPreview[0] = true;
       } else {
@@ -98,8 +93,8 @@ function init() {
       }
 
       // Double Cheese checkbox
-      doubleCheeseCheckBox = document.getElementById("doubleCheese").checked;
-      if (doubleCheeseCheckBox) {
+      doubleCheeseCheckBox = document.getElementById("doubleCheese");
+      if (doubleCheeseCheckBox.checked) {
          pizzaSummary1 += ", double cheese"
          toppingsArrayPreview[1] = true;
       } else {
@@ -525,7 +520,7 @@ function init() {
       var pizzaCrustCart = document.getElementById("pizzaCrust").value;
 
       // Initialize a new pizza
-      var pizza = new Pizza(pizzaSizeCart, pizzaCrustCart, doubleSauceCheckBox, doubleCheeseCheckBox, toppingsArray);
+      var pizza = new Pizza(pizzaSizeCart, pizzaCrustCart, doubleSauceCheckBox.checked, doubleCheeseCheckBox.checked, toppingsArray);
 
       var totalPizzaPrice = 0;
 
@@ -599,6 +594,21 @@ function init() {
          arrPrice.push(cartTotalPrice - arrPrice.reduce(getSum));
       }
       cartTotal.value = "$" + cartTotalPrice;
+
+      resetPizza();
+   }
+
+   function resetPizza() {
+      // Reset double sauce checkbox
+      doubleSauceCheckBox.checked = false;
+      toppingsArrayPreview[0] = false;
+
+      // Reset double cheese checkbox
+      doubleCheeseCheckBox.checked = false;
+      toppingsArrayPreview[1] = false;
+      
+      // Reset images over pizza preview
+      addImageToPreview();
    }
 
    function deleteRowFromTableAndUpdatePrice(itemId) {
