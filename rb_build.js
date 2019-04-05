@@ -49,6 +49,18 @@ cartTotalPrice = 0;
 
 var arr = [];
 var arrPrice = [];
+
+// Used to hold information for toppings for the pizza preview
+// [0] is for double sauce
+// [1] is for double cheese
+// [2] is for pepperoni
+// [3] is for ham
+// and etc.
+var toppingsArrayPreview = new Array(11);
+console.log(toppingsArrayPreview.length);
+console.log(toppingsArrayPreview);
+toppingsArrayPreview[0] = false;
+toppingsArrayPreview[1] = false;
 var rowId = 1;
 
 // Init function 
@@ -80,29 +92,25 @@ function init() {
       doubleSauceCheckBox = document.getElementById("doubleSauce").checked;
       if (doubleSauceCheckBox) {
          pizzaSummary1 += ", double sauce"
-
-         // Add img onto preview box
-         var toppingToAddPic = document.createElement("img");
-         toppingToAddPic.setAttribute("src", "rb_doublesauce.png");
-         pizzaPreviewBox.appendChild(toppingToAddPic);
+         toppingsArrayPreview[0] = true;
+      } else {
+         toppingsArrayPreview[0] = false;
       }
 
       // Double Cheese checkbox
       doubleCheeseCheckBox = document.getElementById("doubleCheese").checked;
       if (doubleCheeseCheckBox) {
          pizzaSummary1 += ", double cheese"
-
-         // Add img onto preview box
-         var toppingToAddPic = document.createElement("img");
-         toppingToAddPic.setAttribute("src", "rb_doublecheese.png");
-         pizzaPreviewBox.appendChild(toppingToAddPic);
+         toppingsArrayPreview[1] = true;
+      } else {
+         toppingsArrayPreview[1] = false;
       }
       combinePizzaItems(pizzaSummary1, pizzaSummary2);
+      addImageToPreview();
    });
 
    var toppingsChange = document.getElementById("toppings").addEventListener("change", function () {
       pizzaSummary2 = "";
-
 
       // Pepperoni
       var pepperoni = document.getElementsByName("pepperoni");
@@ -110,25 +118,15 @@ function init() {
          if (pepperoni[i].checked && pepperoni[i].value != "none") {
             pizzaSummary2 += ", pepperoni" + "(" + pepperoni[i].value + ")";
 
-            // Add img onto preview box
             if (pepperoni[i].value === "left") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_pepperoni.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[2] = 0;
             } else if (pepperoni[i].value === "right") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_pepperoni.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(130px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[2] = 1;
             } else {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_pepperoni.png");
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[2] = 2;
             }
+         } else if(pepperoni[i].checked && pepperoni[i].value === "none") {
+            toppingsArrayPreview[2] = 3;
          }
       }
 
@@ -138,25 +136,15 @@ function init() {
          if (ham[i].checked && ham[i].value != "none") {
             pizzaSummary2 += ", ham" + "(" + ham[i].value + ")";
 
-            // Add img onto preview box
             if (ham[i].value === "left") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_ham.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[3] = 0;
             } else if (ham[i].value === "right") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_ham.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(130px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[3] = 1;
             } else {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_ham.png");
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[3] = 2;
             }
+         } else if(ham[i].checked && ham[i].value === "none") {
+            toppingsArrayPreview[3] = 3;
          }
       }
 
@@ -166,26 +154,15 @@ function init() {
          if (sausage[i].checked && sausage[i].value != "none") {
             pizzaSummary2 += ", sausage" + "(" + sausage[i].value + ")";
 
-            // Add img onto preview box
             if (sausage[i].value === "left") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_sausage.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(10px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[4] = 0;
             } else if (sausage[i].value === "right") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_sausage.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(120px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[4] = 1;
             } else {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_sausage.png");
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[4] = 2;
             }
+         } else if(sausage[i].checked && sausage[i].value === "none") {
+            toppingsArrayPreview[4] = 3;
          }
       }
 
@@ -195,26 +172,15 @@ function init() {
          if (chicken[i].checked && chicken[i].value != "none") {
             pizzaSummary2 += ", chicken" + "(" + chicken[i].value + ")";
 
-            // Add img onto preview box
             if (chicken[i].value === "left") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_chicken.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(20px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[5] = 0;
             } else if (chicken[i].value === "right") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_chicken.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(130px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[5] = 1;
             } else {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_chicken.png");
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[5] = 2;
             }
+         } else if(chicken[i].checked && chicken[i].value === "none") {
+            toppingsArrayPreview[5] = 3;
          }
       }
 
@@ -224,26 +190,15 @@ function init() {
          if (mushrooms[i].checked && mushrooms[i].value != "none") {
             pizzaSummary2 += ", mushroom" + "(" + mushrooms[i].value + ")";
 
-            // Add img onto preview box
             if (mushrooms[i].value === "left") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_mushroom.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(20px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[6] = 0;
             } else if (mushrooms[i].value === "right") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_mushroom.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(120px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[6] = 1;
             } else {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_mushroom.png");
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[6] = 2;
             }
+         } else if(mushrooms[i].checked && mushrooms[i].value === "none") {
+            toppingsArrayPreview[6] = 3;
          }
       }
 
@@ -253,26 +208,15 @@ function init() {
          if (greenpepper[i].checked && greenpepper[i].value != "none") {
             pizzaSummary2 += ", greenpepper" + "(" + greenpepper[i].value + ")";
 
-            // Add img onto preview box
             if (greenpepper[i].value === "left") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_greenpepper.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(20px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[7] = 0;
             } else if (greenpepper[i].value === "right") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_greenpepper.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(125px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[7] = 1;
             } else {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_greenpepper.png");
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[7] = 2;
             }
+         } else if(greenpepper[i].checked && greenpepper[i].value === "none") {
+            toppingsArrayPreview[7] = 3;
          }
       }
 
@@ -282,26 +226,15 @@ function init() {
          if (onion[i].checked && onion[i].value != "none") {
             pizzaSummary2 += ", onion" + "(" + onion[i].value + ")";
 
-            // Add img onto preview box
             if (onion[i].value === "left") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_onion.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(25px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[8] = 0;
             } else if (onion[i].value === "right") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_onion.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(130px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[8] = 1;
             } else {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_onion.png");
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[8] = 2;
             }
+         } else if(onion[i].checked && onion[i].value === "none") {
+            toppingsArrayPreview[8] = 3;
          }
       }
 
@@ -311,26 +244,15 @@ function init() {
          if (tomato[i].checked && tomato[i].value != "none") {
             pizzaSummary2 += ", tomato" + "(" + tomato[i].value + ")";
 
-            // Add img onto preview box
             if (tomato[i].value === "left") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_tomato.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(20px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[9] = 0;
             } else if (tomato[i].value === "right") {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_tomato.png");
-               toppingToAddPic.style.width = '170px';
-               toppingToAddPic.style.height = '300px';
-               toppingToAddPic.style.transform = "translate(115px)";
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[9] = 1;
             } else {
-               var toppingToAddPic = document.createElement("img");
-               toppingToAddPic.setAttribute("src", "rb_tomato.png");
-               pizzaPreviewBox.appendChild(toppingToAddPic);
+               toppingsArrayPreview[9] = 2;
             }
+         } else if(tomato[i].checked && tomato[i].value === "none") {
+            toppingsArrayPreview[9] = 3;
          }
       }
 
@@ -340,30 +262,217 @@ function init() {
          if (jalapeno[i].checked && jalapeno[i].value != "none") {
             pizzaSummary2 += ", jalapeno" + "(" + jalapeno[i].value + ")";
 
-            // Add img onto preview box
             if (jalapeno[i].value === "left") {
+               toppingsArrayPreview[10] = 0;
+            } else if (jalapeno[i].value === "right") {
+               toppingsArrayPreview[10] = 1;
+            } else {
+               toppingsArrayPreview[10] = 2;
+            }
+         } else if(jalapeno[i].checked && jalapeno[i].value === "none") {
+            toppingsArrayPreview[10] = 3;
+         }
+      }
+      combinePizzaItems(pizzaSummary1, pizzaSummary2);
+      addImageToPreview();
+   });
+
+   function addImageToPreview() {
+      // Delete all child of preview box and rebuild images on top of it
+      while (pizzaPreviewBox.firstChild) {
+         pizzaPreviewBox.removeChild(pizzaPreviewBox.firstChild);
+     }
+
+      for (let i = 0; i < toppingsArrayPreview.length; i++) {
+         if (i === 0 && toppingsArrayPreview[i] === true) {
+            var toppingToAddPic = document.createElement("img");
+            toppingToAddPic.setAttribute("src", "rb_doublesauce.png");
+            pizzaPreviewBox.appendChild(toppingToAddPic);
+         } else if (i === 1 && toppingsArrayPreview[i] === true) {
+            var toppingToAddPic = document.createElement("img");
+            toppingToAddPic.setAttribute("src", "rb_doublecheese.png");
+            pizzaPreviewBox.appendChild(toppingToAddPic);
+         } else if (i === 2) {
+            if(toppingsArrayPreview[i] === 0) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_pepperoni.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if (toppingsArrayPreview[i] === 1) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_pepperoni.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(130px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if (toppingsArrayPreview[i] === 2) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_pepperoni.png");
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else {}
+         } else if (i === 3) {
+            if(toppingsArrayPreview[i] === 0) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_ham.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if(toppingsArrayPreview[i] === 1) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_ham.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(130px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if(toppingsArrayPreview[i] === 2) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_ham.png");
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else {}
+         } else if (i === 4) {
+            if(toppingsArrayPreview[i] === 0) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_sausage.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(10px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if (toppingsArrayPreview[i] === 1) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_sausage.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(120px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if (toppingsArrayPreview[i] === 2) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_sausage.png");
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else {}
+         } else if (i === 5) {
+            if(toppingsArrayPreview[i] === 0) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_chicken.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(20px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if(toppingsArrayPreview[i] === 1) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_chicken.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(130px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if(toppingsArrayPreview[i] === 2) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_chicken.png");
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else {}
+         } else if(i === 6) {
+            if(toppingsArrayPreview[i] === 0) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_mushroom.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(20px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if(toppingsArrayPreview[i] === 1) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_mushroom.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(120px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if(toppingsArrayPreview[i] === 2) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_mushroom.png");
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else {}
+         } else if(i === 7) {
+            if(toppingsArrayPreview[i] === 0) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_greenpepper.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(20px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if (toppingsArrayPreview[i] === 1) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_greenpepper.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(125px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if(toppingsArrayPreview[i] === 2) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_greenpepper.png");
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else {}
+         } else if (i === 8) {
+            if(toppingsArrayPreview[i] === 0) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_onion.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(25px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if (toppingsArrayPreview[i] === 1) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_onion.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(130px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if(toppingsArrayPreview[i] === 2) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_onion.png");
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else {}
+         } else if(i === 9) {
+            if(toppingsArrayPreview[i] === 0) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_tomato.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(20px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if(toppingsArrayPreview[i] === 1) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_tomato.png");
+               toppingToAddPic.style.width = '170px';
+               toppingToAddPic.style.height = '300px';
+               toppingToAddPic.style.transform = "translate(115px)";
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else if(toppingsArrayPreview[i] === 2) {
+               var toppingToAddPic = document.createElement("img");
+               toppingToAddPic.setAttribute("src", "rb_tomato.png");
+               pizzaPreviewBox.appendChild(toppingToAddPic);
+            } else {}
+         } else {
+            if(toppingsArrayPreview[i] === 0) {
                var toppingToAddPic = document.createElement("img");
                toppingToAddPic.setAttribute("src", "rb_jalapeno.png");
                toppingToAddPic.style.width = '170px';
                toppingToAddPic.style.height = '300px';
                toppingToAddPic.style.transform = "translate(25px)";
                pizzaPreviewBox.appendChild(toppingToAddPic);
-            } else if (jalapeno[i].value === "right") {
+            } else if(toppingsArrayPreview[i] === 1) {
                var toppingToAddPic = document.createElement("img");
                toppingToAddPic.setAttribute("src", "rb_jalapeno.png");
                toppingToAddPic.style.width = '170px';
                toppingToAddPic.style.height = '300px';
                toppingToAddPic.style.transform = "translate(120px)";
                pizzaPreviewBox.appendChild(toppingToAddPic);
-            } else {
+            } else if(toppingsArrayPreview[i] === 2) {
                var toppingToAddPic = document.createElement("img");
                toppingToAddPic.setAttribute("src", "rb_jalapeno.png");
                pizzaPreviewBox.appendChild(toppingToAddPic);
-            }
+            } else {}
          }
       }
-      combinePizzaItems(pizzaSummary1, pizzaSummary2);
-   });
+   }
 
    /**
     * Combines the pizza summary from options menu and toppings menu to make
