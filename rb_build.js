@@ -40,8 +40,8 @@ class Toppings {
 window.onload = init();
 
 // Global Variables
-var doubleCheeseCheckBox;
-var doubleSauceCheckBox;
+var doubleCheeseCheckBox = 0;
+var doubleSauceCheckBox = 0;
 
 let cartTotal = document.getElementById("cartTotal");
 let cartTotalPrice = parseFloat(cartTotal.value);
@@ -70,6 +70,7 @@ function init() {
    // Pizza summary shown above quantity option
    var pizzaSummary = document.getElementById("pizzaSummary");
 
+   var pizzaSummaryDefault = "14\" pizza, thin"; 
    var pizzaSummary1 = "14\" pizza, thin";
    var pizzaSummary2 = "";
 
@@ -599,6 +600,15 @@ function init() {
    }
 
    function resetPizza() {
+      // Reset size of pizza
+      document.getElementById("pizzaSize").value = "14";
+
+      // Reset crust of pizza
+      document.getElementById("pizzaCrust").value = "thin";
+
+      // Reset quantity
+      document.getElementById("pizzaQuantity").value = "1";
+
       // Reset double sauce checkbox
       doubleSauceCheckBox.checked = false;
       toppingsArrayPreview[0] = false;
@@ -606,7 +616,26 @@ function init() {
       // Reset double cheese checkbox
       doubleCheeseCheckBox.checked = false;
       toppingsArrayPreview[1] = false;
-      
+
+      // Reset topping radio buttons
+      document.getElementsByName("pepperoni")[3].checked = true;
+      document.getElementsByName("ham")[3].checked = true;
+      document.getElementsByName("sausage")[3].checked = true;
+      document.getElementsByName("chicken")[3].checked = true;
+      document.getElementsByName("mushroom")[3].checked = true;
+      document.getElementsByName("greenpepper")[3].checked = true;
+      document.getElementsByName("onion")[3].checked = true;
+      document.getElementsByName("tomato")[3].checked = true;
+      document.getElementsByName("jalapeno")[3].checked = true;
+ 
+      // Reset toppings array which determines if left, right, full, none
+      for(let i = 2; i < toppingsArrayPreview.length; i++) {
+         toppingsArrayPreview[i] = 3;
+      }
+
+      // Reset summary
+      pizzaSummary.innerHTML = pizzaSummaryDefault;
+
       // Reset images over pizza preview
       addImageToPreview();
    }
