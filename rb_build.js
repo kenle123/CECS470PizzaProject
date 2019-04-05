@@ -50,12 +50,6 @@ cartTotalPrice = 0;
 var arr = [];
 var arrPrice = [];
 
-// Used to hold information for toppings for the pizza preview
-// [0] is for double sauce
-// [1] is for double cheese
-// [2] is for pepperoni
-// [3] is for ham
-// and etc.
 var toppingsArrayPreview = new Array(11);
 var rowId = 1;
 
@@ -74,6 +68,7 @@ function init() {
    var pizzaSummary1 = "14\" pizza, thin";
    var pizzaSummary2 = "";
 
+   // On change listener for pizza options
    var pizzaOptions = document.getElementById("pizzaOptions").addEventListener("change", function () {
       pizzaSummary1 = "";
       // Pizza Size
@@ -105,6 +100,7 @@ function init() {
       addImageToPreview();
    });
 
+   // On change listener for toppings radio buttons
    var toppingsChange = document.getElementById("toppings").addEventListener("change", function () {
       pizzaSummary2 = "";
 
@@ -273,6 +269,13 @@ function init() {
       addImageToPreview();
    });
 
+   /**
+    * For adding the topping/sauces/cheese to the preview box.
+    * Uses toppingArrayPreview to determine where to put each topping wheter it
+    * should be left, right, full, or none. In that array, [0] is double sauce, 
+    * [1] is double cheese, [2] is pepperoni, and etc. If the value in the array 
+    * is 0, that means left, 1 means right, 2 means full, and 3 means none
+    */
    function addImageToPreview() {
       // Delete all child of preview box and rebuild images on top of it
       while (pizzaPreviewBox.firstChild) {
@@ -571,6 +574,8 @@ function init() {
       deletePizzaItem.setAttribute("id", rowId);
       arr.push(rowId);
       rowId++;
+
+      // On click listener for deleting an item from cart
       deletePizzaItem.addEventListener("click", function (e) {
          deleteRowFromTableAndUpdatePrice(e.target.id);
       });
@@ -599,6 +604,9 @@ function init() {
       resetPizza();
    }
 
+   /**
+    * Resets the pizza and options
+    */
    function resetPizza() {
       // Reset size of pizza
       document.getElementById("pizzaSize").value = "14";
@@ -640,6 +648,12 @@ function init() {
       addImageToPreview();
    }
 
+   /**
+    * Deletes row from cart and updates the price based on deletion.
+    * This function uses indexes and extra array arr to update the cart and 
+    * arrPrice to update the price.
+    * @param {*} itemId The id of the item to be deleted
+    */
    function deleteRowFromTableAndUpdatePrice(itemId) {
       // Keeps track of what item to delete based on an array of the button IDs
       var indexOfElement = arr.indexOf(parseFloat(itemId));
