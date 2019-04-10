@@ -643,7 +643,7 @@ function init() {
 
       // Reset summary
       pizzaSummary.innerHTML = pizzaSummaryDefault;
-      pizzaSummary1 = "";
+      pizzaSummary1 = "14\" pizza, thin";
       pizzaSummary2 = "";
 
       // Reset images over pizza preview
